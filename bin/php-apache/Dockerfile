@@ -1,4 +1,4 @@
-FROM php:8.0.24-apache-buster
+FROM php:7.4.30-apache-bullseye
 
 RUN a2dissite 000-default
 
