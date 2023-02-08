@@ -23,9 +23,9 @@ services:
     image: mariadb:latest
     restart: always
     volumes:
-      - ${MYSQL_LOG_DIR}: /var/log/mysql
+      - ${MYSQL_LOG_DIR}:/var/log/mysql
       - /var/lib/mysql
-      - ${FULL_ROOT_DIR}/config/mariadb/50-server.cnf: /etc/mysql/mariadb.conf.d/50-server.cnf
+      - ${FULL_ROOT_DIR}/config/mariadb/50-server.cnf:/etc/mysql/mariadb.conf.d/50-server.cnf
     ports:
       - "${MYSQL_PORT}:3306"
     environment:
