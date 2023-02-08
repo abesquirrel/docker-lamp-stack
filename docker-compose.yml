@@ -14,7 +14,7 @@ services:
       - "${HTTPS_PORT}:443"
       - "${SSH_PORT}:20"
     environment:
-      XDEBUG_CONFIG:"remote_port=${XDEBUG_REMOTE_PORT} idekey=${XDEBUG_IDE_KEY}"
+      XDEBUG_CONFIG: "remote_port=${XDEBUG_REMOTE_PORT} idekey=${XDEBUG_IDE_KEY}"
     depends_on:
       - mariadb
     links:
