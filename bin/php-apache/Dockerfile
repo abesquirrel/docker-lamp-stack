@@ -7,7 +7,7 @@ RUN rm /etc/apache2/sites-enabled/000-default.conf
 RUN a2enmod expires headers rewrite ssl
 
 # Update Apache configuration to allow .htaccess overrides
-RUN sed -i '/<Directory \\/var\\/www\\/>/,/<\\/Directory>/s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+RUN awk '{gsub("AllowOverride None", "AllowOverride All")} 1' /etc/apache2/apache2.conf > temp.conf && mv temp.conf /etc/apache2/apache2.conf
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-enable xdebug
 
 # Copy Xdebug configuration for PHPStorm
-COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+# COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
