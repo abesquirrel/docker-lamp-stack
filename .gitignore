@@ -1,0 +1,8 @@
+.DS_Store
+.idea/workspace.xml
+compose-dev.yaml
+
+/.idea/docker-lamp-stack.iml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/vcs.xml
