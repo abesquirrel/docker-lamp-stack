@@ -26,7 +26,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-enable xdebug
 
 # Copy Xdebug configuration for PHPStorm
-# COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
