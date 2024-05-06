@@ -9,6 +9,9 @@ RUN a2enmod expires headers rewrite ssl
 # Update Apache configuration to allow .htaccess overrides
 RUN awk '{gsub("AllowOverride None", "AllowOverride All")} 1' /etc/apache2/apache2.conf > temp.conf && mv temp.conf /etc/apache2/apache2.conf
 
+# Set the ServerName directive globally
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
@@ -24,6 +27,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-install -j$(nproc) pdo_mysql gd zip mysqli \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
+
+# Comment out the line that loads Xdebug in the docker-php-ext-xdebug.ini file
+RUN sed -i 's/^zend_extension=/;zend_extension=/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Copy Xdebug configuration for PHPStorm
 
