@@ -1,16 +1,12 @@
 FROM php:8.2.3-apache-bullseye
 
-# Remove the default site configuration
-RUN rm /etc/apache2/sites-enabled/000-default.conf
+# Remove default site configuration and enable necessary Apache modules
+RUN rm /etc/apache2/sites-enabled/000-default.conf && \
+    a2enmod expires headers rewrite ssl
 
-# Enable required Apache modules
-RUN a2enmod expires headers rewrite ssl
-
-# Update Apache configuration to allow .htaccess overrides
-RUN awk '{gsub("AllowOverride None", "AllowOverride All")} 1' /etc/apache2/apache2.conf > temp.conf && mv temp.conf /etc/apache2/apache2.conf
-
-# Set the ServerName directive globally
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+# Update Apache configuration to allow .htaccess overrides and set ServerName
+RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf && \
+    echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
